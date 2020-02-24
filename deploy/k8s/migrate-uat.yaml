@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migrate-database-uat
+spec:
+  template:
+    spec:
+      containers:
+      - name: migrate-database-uat
+        image: golfapipol/workshop-shoppingcart-migrate:uat
+        env:
+        - name: LIQUIBASE_URL
+          value: "jdbc:mysql://workshop-shoppingcart-mysql/workshop_shoppingcart"
+        - name: LIQUIBASE_USERNAME
+          value: "root"
+        - name: LIQUIBASE_PASSWORD
+          value: "1234"
+        - name: LIQUIBASE_CHANGELOG
+          value: "changelog.yml"
+      restartPolicy: Never
+
+

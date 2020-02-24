@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migrate-database-production
+spec:
+  template:
+    spec:
+      containers:
+      - name: migrate-database-production
+        image: golfapipol/workshop-shoppingcart-migrate:production
+        env:
+        - name: LIQUIBASE_URL
+          value: "jdbc:mysql://workshop-shoppingcart-mysql/workshop_shoppingcart"
+        - name: LIQUIBASE_USERNAME
+          value: "root"
+        - name: LIQUIBASE_PASSWORD
+          value: "1234"
+        - name: LIQUIBASE_CHANGELOG
+          value: "changelog.yml"
+      restartPolicy: Never

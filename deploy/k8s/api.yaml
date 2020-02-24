@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: workshop-shoppingcart-api
+spec:
+  type: NodePort
+  ports:
+  - name: "5001"
+    port: 5001
+    targetPort: 5001
+    nodePort: 32300
+  selector:
+    app: workshop-shoppingcart-api
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: workshop-shoppingcart-api
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: workshop-shoppingcart-api
+    spec:
+      restartPolicy: Always
+      containers:
+      - image: golfapipol/workshop-shoppingcart-api
+        imagePullPolicy: "Always"
+        name: workshop-shoppingcart-api
+        ports:
+        - containerPort: 5001
+        env:
+        - name: ConnectionString
+          value: "server=workshop-shoppingcart-mysql;userid=root;password=1234;database=workshop_shoppingcart;convert zero datetime=True;CHARSET=utf8;"
